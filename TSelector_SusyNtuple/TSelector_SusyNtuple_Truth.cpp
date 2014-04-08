@@ -1633,7 +1633,7 @@ TruthJetVector TSelector_SusyNtuple_Truth::getTruthJetsL20   (TruthJetVector& tr
     for(uint ij=0; ij<nt.jet()->size(); ++ij){
       Jet* recoj = & nt.jet()->at(ij);
       if(recoj->truthLabel==5){
-	if(recoj->DeltaR(*truthjet) < 0.2) bmatch = true;
+	if(recoj->DeltaR(*truthjet) < 0.4) bmatch = true;
       }
     }
     if(!bmatch &&  jet->Pt() >= 20. && fabs(jet->Eta()) <= 2.4 ) truthSignalJets.push_back(jet);
@@ -1672,7 +1672,7 @@ TruthJetVector TSelector_SusyNtuple_Truth::getTruthJetsB20   (TruthJetVector& tr
 // 	if(recoj->DeltaR(*truthjet) < 0.05) cout << "DeltaR truth, reco jet:  " << recoj->DeltaR(*truthjet) << " reco pt, eta, phi " << recoj->Pt()<< ", " << recoj->Eta() << ", " << recoj->Phi() << "; truthjet pt, eta, phi " << truthjet->Pt() << ", " << truthjet->Eta() << ", " << truthjet->Phi() << endl;
 	
 // 	h_diffptrecoTruthJets_DeltaR->Fill(fabs(recoj->Pt() - truthjet->Pt()), recoj->DeltaR(*truthjet), 1);
-	if(recoj->DeltaR(*truthjet) < 0.2) bmatch = true;
+	if(recoj->DeltaR(*truthjet) < 0.4) bmatch = true;
       }
     }
     if( bmatch && truthjet->Pt() >= 20. && fabs(truthjet->Eta()) <= 2.4 ) truthSignalJets.push_back(truthjet);
@@ -1723,73 +1723,73 @@ void TSelector_SusyNtuple_Truth::SlaveTerminate()
   
     TString outputfile;
 
-    if(sample_identifier == 169471)outputfile="histos_ZN_WW_n0150_Truth_";
-    if(sample_identifier == 126988)outputfile="histos_ZN_WWPlusJets_n0150_Truth_";
-    if(sample_identifier == 129477)outputfile="histos_ZN_ZV_n0150_Truth_";
+    if(sample_identifier == 169471)outputfile="histos_ZN_WW_n0150_Truth_BJetDR04_";
+    if(sample_identifier == 126988)outputfile="histos_ZN_WWPlusJets_n0150_Truth_BJetDR04_";
+    if(sample_identifier == 129477)outputfile="histos_ZN_ZV_n0150_Truth_BJetDR04_";
     
-    if(sample_identifier == 116600)outputfile="histos_ZN_ZZ_n0150_Truth_";
-    if(sample_identifier == 108346)outputfile="histos_ZN_ttbarWtop_n0150_Truth_";
+    if(sample_identifier == 116600)outputfile="histos_ZN_ZZ_n0150_Truth_BJetDR04_";
+    if(sample_identifier == 108346)outputfile="histos_ZN_ttbarWtop_n0150_Truth_BJetDR04_";
     
-//     if(sample_identifier == 110805) outputfile="histos_ZN_ZPlusJetsOLD_n0150_split1_Truth_";
-//     if(sample_identifier == 117671) outputfile="histos_ZN_ZPlusJetsOLD_n0150_split2_Truth_";    
-//     if(sample_identifier == 173041)outputfile="histos_ZN_ZPlusJetsOLD_n0150_split3_Truth_";           
-//     if(sample_identifier == 173045)outputfile="histos_ZN_ZPlusJetsOLD_n0150_split4_Truth_"; 
+//     if(sample_identifier == 110805) outputfile="histos_ZN_ZPlusJetsOLD_n0150_split1_Truth_BJetDR04_";
+//     if(sample_identifier == 117671) outputfile="histos_ZN_ZPlusJetsOLD_n0150_split2_Truth_BJetDR04_";    
+//     if(sample_identifier == 173041)outputfile="histos_ZN_ZPlusJetsOLD_n0150_split3_Truth_BJetDR04_";           
+//     if(sample_identifier == 173045)outputfile="histos_ZN_ZPlusJetsOLD_n0150_split4_Truth_BJetDR04_"; 
     
-    if(sample_identifier == 147105)outputfile="histos_ZN_ZPlusJetsNEW_n0150_split1_Truth_";    
-    if(sample_identifier == 147123)outputfile="histos_ZN_ZPlusJetsNEW_n0150_split2_Truth_";    
-    if(sample_identifier == 147771)outputfile="histos_ZN_ZPlusJetsNEW_n0150_split3_Truth_";    
-    if(sample_identifier == 173045)outputfile="histos_ZN_ZPlusJetsNEW_n0150_split4_Truth_";    
+    if(sample_identifier == 147105)outputfile="histos_ZN_ZPlusJetsNEW_n0150_split1_Truth_BJetDR04_";    
+    if(sample_identifier == 147123)outputfile="histos_ZN_ZPlusJetsNEW_n0150_split2_Truth_BJetDR04_";    
+    if(sample_identifier == 147771)outputfile="histos_ZN_ZPlusJetsNEW_n0150_split3_Truth_BJetDR04_";    
+    if(sample_identifier == 173045)outputfile="histos_ZN_ZPlusJetsNEW_n0150_split4_Truth_BJetDR04_";    
     
     
     
-    if(sample_identifier == 160155)outputfile="histos_ZN_Higgs_n0150_Truth_";
+    if(sample_identifier == 160155)outputfile="histos_ZN_Higgs_n0150_Truth_BJetDR04_";
     
-    if(sample_identifier == 157816)outputfile="histos_ZN_VVtotautauqq_n0150_Truth_";
+    if(sample_identifier == 157816)outputfile="histos_ZN_VVtotautauqq_n0150_Truth_BJetDR04_";
     
-    if(sample_identifier == 126893)outputfile="histos_cutflow_126893_TSelector_n0150_Truth_";
-    if(sample_identifier == 176576)outputfile="histos_cutflow_176576_TSelector_n0150_Truth_";
-    if(sample_identifier == 177501)outputfile="histos_ZN_177501_n0150_Truth_";
-    if(sample_identifier == 177502)outputfile="histos_ZN_177502_n0150_Truth_";
-    if(sample_identifier == 177503)outputfile="histos_ZN_177503_n0150_Truth_";
-    if(sample_identifier == 177504)outputfile="histos_ZN_177504_n0150_Truth_";
-    if(sample_identifier == 177505)outputfile="histos_ZN_177505_n0150_Truth_";
-    if(sample_identifier == 177506)outputfile="histos_ZN_177506_n0150_Truth_";
-    if(sample_identifier == 177507)outputfile="histos_ZN_177507_n0150_Truth_";
-    if(sample_identifier == 177508)outputfile="histos_ZN_177508_n0150_Truth_";
-    if(sample_identifier == 177509)outputfile="histos_ZN_177509_n0150_Truth_";
-    if(sample_identifier == 177510)outputfile="histos_ZN_177510_n0150_Truth_";
-    if(sample_identifier == 177511)outputfile="histos_ZN_177511_n0150_Truth_";
-    if(sample_identifier == 177512)outputfile="histos_ZN_177512_n0150_Truth_";
-    if(sample_identifier == 177513)outputfile="histos_ZN_177513_n0150_Truth_";
-    if(sample_identifier == 177514)outputfile="histos_ZN_177514_n0150_Truth_";
-    if(sample_identifier == 177515)outputfile="histos_ZN_177515_n0150_Truth_";
-    if(sample_identifier == 177516)outputfile="histos_ZN_177516_n0150_Truth_";
-    if(sample_identifier == 177517)outputfile="histos_ZN_177517_n0150_Truth_";
-    if(sample_identifier == 177518)outputfile="histos_ZN_177518_n0150_Truth_";
-    if(sample_identifier == 177519)outputfile="histos_ZN_177519_n0150_Truth_";
-    if(sample_identifier == 177520)outputfile="histos_ZN_177520_n0150_Truth_";
-    if(sample_identifier == 177521)outputfile="histos_ZN_177521_n0150_Truth_";
-    if(sample_identifier == 177522)outputfile="histos_ZN_177522_n0150_Truth_";
-    if(sample_identifier == 177523)outputfile="histos_ZN_177523_n0150_Truth_";
-    if(sample_identifier == 177524)outputfile="histos_ZN_177524_n0150_Truth_";
-    if(sample_identifier == 177525)outputfile="histos_ZN_177525_n0150_Truth_";
-    if(sample_identifier == 177526)outputfile="histos_ZN_177526_n0150_Truth_";
-    if(sample_identifier == 177527)outputfile="histos_ZN_177527_n0150_Truth_";
+    if(sample_identifier == 126893)outputfile="histos_cutflow_126893_TSelector_n0150_Truth_BJetDR04_";
+    if(sample_identifier == 176576)outputfile="histos_cutflow_176576_TSelector_n0150_Truth_BJetDR04_";
+    if(sample_identifier == 177501)outputfile="histos_ZN_177501_n0150_Truth_BJetDR04_";
+    if(sample_identifier == 177502)outputfile="histos_ZN_177502_n0150_Truth_BJetDR04_";
+    if(sample_identifier == 177503)outputfile="histos_ZN_177503_n0150_Truth_BJetDR04_";
+    if(sample_identifier == 177504)outputfile="histos_ZN_177504_n0150_Truth_BJetDR04_";
+    if(sample_identifier == 177505)outputfile="histos_ZN_177505_n0150_Truth_BJetDR04_";
+    if(sample_identifier == 177506)outputfile="histos_ZN_177506_n0150_Truth_BJetDR04_";
+    if(sample_identifier == 177507)outputfile="histos_ZN_177507_n0150_Truth_BJetDR04_";
+    if(sample_identifier == 177508)outputfile="histos_ZN_177508_n0150_Truth_BJetDR04_";
+    if(sample_identifier == 177509)outputfile="histos_ZN_177509_n0150_Truth_BJetDR04_";
+    if(sample_identifier == 177510)outputfile="histos_ZN_177510_n0150_Truth_BJetDR04_";
+    if(sample_identifier == 177511)outputfile="histos_ZN_177511_n0150_Truth_BJetDR04_";
+    if(sample_identifier == 177512)outputfile="histos_ZN_177512_n0150_Truth_BJetDR04_";
+    if(sample_identifier == 177513)outputfile="histos_ZN_177513_n0150_Truth_BJetDR04_";
+    if(sample_identifier == 177514)outputfile="histos_ZN_177514_n0150_Truth_BJetDR04_";
+    if(sample_identifier == 177515)outputfile="histos_ZN_177515_n0150_Truth_BJetDR04_";
+    if(sample_identifier == 177516)outputfile="histos_ZN_177516_n0150_Truth_BJetDR04_";
+    if(sample_identifier == 177517)outputfile="histos_ZN_177517_n0150_Truth_BJetDR04_";
+    if(sample_identifier == 177518)outputfile="histos_ZN_177518_n0150_Truth_BJetDR04_";
+    if(sample_identifier == 177519)outputfile="histos_ZN_177519_n0150_Truth_BJetDR04_";
+    if(sample_identifier == 177520)outputfile="histos_ZN_177520_n0150_Truth_BJetDR04_";
+    if(sample_identifier == 177521)outputfile="histos_ZN_177521_n0150_Truth_BJetDR04_";
+    if(sample_identifier == 177522)outputfile="histos_ZN_177522_n0150_Truth_BJetDR04_";
+    if(sample_identifier == 177523)outputfile="histos_ZN_177523_n0150_Truth_BJetDR04_";
+    if(sample_identifier == 177524)outputfile="histos_ZN_177524_n0150_Truth_BJetDR04_";
+    if(sample_identifier == 177525)outputfile="histos_ZN_177525_n0150_Truth_BJetDR04_";
+    if(sample_identifier == 177526)outputfile="histos_ZN_177526_n0150_Truth_BJetDR04_";
+    if(sample_identifier == 177527)outputfile="histos_ZN_177527_n0150_Truth_BJetDR04_";
     
-    if(sample_identifier == 10001) outputfile="histos_fake_Egamma_n0150_1_Truth_";
-    if(sample_identifier == 10002) outputfile="histos_fake_Egamma_n0150_2_Truth_";
-    if(sample_identifier == 10003) outputfile="histos_fake_Egamma_n0150_3_Truth_";
-    if(sample_identifier == 10004) outputfile="histos_fake_Egamma_n0150_4_Truth_";
-    if(sample_identifier == 10005) outputfile="histos_fake_Egamma_n0150_5_Truth_";
-    if(sample_identifier == 10006) outputfile="histos_fake_Egamma_n0150_6_Truth_";
+    if(sample_identifier == 10001) outputfile="histos_fake_Egamma_n0150_1_Truth_BJetDR04_";
+    if(sample_identifier == 10002) outputfile="histos_fake_Egamma_n0150_2_Truth_BJetDR04_";
+    if(sample_identifier == 10003) outputfile="histos_fake_Egamma_n0150_3_Truth_BJetDR04_";
+    if(sample_identifier == 10004) outputfile="histos_fake_Egamma_n0150_4_Truth_BJetDR04_";
+    if(sample_identifier == 10005) outputfile="histos_fake_Egamma_n0150_5_Truth_BJetDR04_";
+    if(sample_identifier == 10006) outputfile="histos_fake_Egamma_n0150_6_Truth_BJetDR04_";
     
-    if(sample_identifier == 20001) outputfile="histos_fake_Muons_n0150_1_Truth_";
-    if(sample_identifier == 20002) outputfile="histos_fake_Muons_n0150_2_Truth_";
-    if(sample_identifier == 20003) outputfile="histos_fake_Muons_n0150_3_Truth_";
-    if(sample_identifier == 20004) outputfile="histos_fake_Muons_n0150_4_Truth_";
-    if(sample_identifier == 20005) outputfile="histos_fake_Muons_n0150_5_Truth_";
-    if(sample_identifier == 20006) outputfile="histos_fake_Muons_n0150_6_Truth_";
-//     outputfile="histos_cutflow_fake_Egamma_periodA_Truth_";
+    if(sample_identifier == 20001) outputfile="histos_fake_Muons_n0150_1_Truth_BJetDR04_";
+    if(sample_identifier == 20002) outputfile="histos_fake_Muons_n0150_2_Truth_BJetDR04_";
+    if(sample_identifier == 20003) outputfile="histos_fake_Muons_n0150_3_Truth_BJetDR04_";
+    if(sample_identifier == 20004) outputfile="histos_fake_Muons_n0150_4_Truth_BJetDR04_";
+    if(sample_identifier == 20005) outputfile="histos_fake_Muons_n0150_5_Truth_BJetDR04_";
+    if(sample_identifier == 20006) outputfile="histos_fake_Muons_n0150_6_Truth_BJetDR04_";
+//     outputfile="histos_cutflow_fake_Egamma_periodA_Truth_BJetDR04_";
     
 // if(sample_identifier>=176574 && sample_identifier <= 176640){
 // char buffer[10];

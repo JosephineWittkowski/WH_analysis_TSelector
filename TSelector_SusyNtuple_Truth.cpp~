@@ -584,14 +584,10 @@ Bool_t TSelector_SusyNtuple_Truth::Process(Long64_t entry)
 		}
 	      }
 	    }
+	  }
 	}
       }
-
-
     }
-
-
-  }
   return kTRUE;
 
 }
@@ -1637,7 +1633,7 @@ TruthJetVector TSelector_SusyNtuple_Truth::getTruthJetsL20   (TruthJetVector& tr
     for(uint ij=0; ij<nt.jet()->size(); ++ij){
       Jet* recoj = & nt.jet()->at(ij);
       if(recoj->truthLabel==5){
-	if(recoj->DeltaR(*truthjet) < 0.2) bmatch = true;
+	if(recoj->DeltaR(*truthjet) < 0.4) bmatch = true;
       }
     }
     if(!bmatch &&  jet->Pt() >= 20. && fabs(jet->Eta()) <= 2.4 ) truthSignalJets.push_back(jet);
@@ -1676,7 +1672,7 @@ TruthJetVector TSelector_SusyNtuple_Truth::getTruthJetsB20   (TruthJetVector& tr
 // 	if(recoj->DeltaR(*truthjet) < 0.05) cout << "DeltaR truth, reco jet:  " << recoj->DeltaR(*truthjet) << " reco pt, eta, phi " << recoj->Pt()<< ", " << recoj->Eta() << ", " << recoj->Phi() << "; truthjet pt, eta, phi " << truthjet->Pt() << ", " << truthjet->Eta() << ", " << truthjet->Phi() << endl;
 	
 // 	h_diffptrecoTruthJets_DeltaR->Fill(fabs(recoj->Pt() - truthjet->Pt()), recoj->DeltaR(*truthjet), 1);
-	if(recoj->DeltaR(*truthjet) < 0.2) bmatch = true;
+	if(recoj->DeltaR(*truthjet) < 0.4) bmatch = true;
       }
     }
     if( bmatch && truthjet->Pt() >= 20. && fabs(truthjet->Eta()) <= 2.4 ) truthSignalJets.push_back(truthjet);

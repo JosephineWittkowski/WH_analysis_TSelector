@@ -45,7 +45,7 @@ void throwException(string str){
 }; 
 
 
-void run_TSelector_SusyNtuple_Truth_n0150_WH(TString SysUncertType, TString InputPath) {
+void run_TSelector_SusyNtuple_Truth_n0150_WH(TString InputPath) {
 
 //  TString options = TString(""); //TString(tag.c_str()) ;
 // //     TString outputfile = "test.root";
@@ -122,7 +122,7 @@ void run_TSelector_SusyNtuple_Truth_n0150_WH(TString SysUncertType, TString Inpu
       TSelector_SusyNtuple_Truth* SusyNtupleObject = new TSelector_SusyNtuple_Truth();
 //       SusyNtupleObject->buildSumwMap(ch);
 //       TString options="NtSys_NOM";
-      ch->Process(SusyNtupleObject,SysUncertType);
+      ch->Process(SusyNtupleObject);
       delete SusyNtupleObject;
       
       if (ch) {delete ch; ch=0;}
