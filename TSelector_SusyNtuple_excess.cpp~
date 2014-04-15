@@ -2553,7 +2553,7 @@ void TSelector_SusyNtuple_excess::SlaveTerminate()
     if(sample_identifier == 177527)outputfile="histos_ZN_177527_n0150_excessStudy_";
 
     
-    outputfile="histos_excess_EM_fake_MyEvents_Egamma_GH_";
+    outputfile="histos_excess_EM_fake_MyEvents_Muons_E_";
     
 
     char buffer[10];
