@@ -362,7 +362,7 @@ Bool_t TSelector_SusyNtuple::Process(Long64_t entry)
 		  int pdg1 = 11 * (-1) * el1->q;
 		  if((el0->q * el1->q)<0 && nt.evt()->isMC){	
 // 		    m_chargeFlip.setSeed(nt.evt()->event);
-		    chargeFlip::eStatus map2use = chargeFlip::combined;
+		    chargeFlip::eStatus map2use = chargeFlip::dataonly;
 		    chargeFlipWeight = m_chargeFlip.OS2SS(pdg0, &el0_SS_TLV, pdg1, &el1_SS_TLV, qflipSysUncertType, map2use);
 		    chargeFlipWeight*= m_chargeFlip.overlapFrac().first;	
 		    el0_SS->pt = el0_SS_TLV.Pt(); el0_SS->resetTLV();
@@ -880,7 +880,7 @@ Bool_t TSelector_SusyNtuple::Process(Long64_t entry)
 
 		if(el->q*mu->q<0 && nt.evt()->isMC){
 // 		  m_chargeFlip.setSeed(nt.evt()->event);
-		  chargeFlip::eStatus map2use = chargeFlip::combined;
+		  chargeFlip::eStatus map2use = chargeFlip::dataonly;
 		  chargeFlipWeight = m_chargeFlip.OS2SS(pdg0, &el_SS_TLV, 13, &empty_TLV, qflipSysUncertType, map2use);
 		  chargeFlipWeight*= m_chargeFlip.overlapFrac().first;
 		  el_SS->pt = el_SS_TLV.Pt(); el_SS->resetTLV();
@@ -957,7 +957,7 @@ Bool_t TSelector_SusyNtuple::Process(Long64_t entry)
 				cutnumber = 29.; fillHistos_EM_SRSS1(cutnumber, weight_ALL_SS_EM);
 				if(Mlj_EM < 90.){
 				  cutnumber = 30.; fillHistos_EM_SRSS1(cutnumber, weight_ALL_SS_EM);
-				  if(mTWW_EM > 120.){
+				  if(HT_EM > 200.){
 				    cutnumber = 31.; fillHistos_EM_SRSS1(cutnumber, weight_ALL_SS_EM);
 				    if(calcSysUncert) cutflow_EM_sysUncert->Fill(cutnumber, isys, weight_ALL_SS_EM);
 				  }				 
@@ -976,11 +976,14 @@ Bool_t TSelector_SusyNtuple::Process(Long64_t entry)
 			      cutnumber = 37.; fillHistos_EM_SRSS1(cutnumber, weight_ALL_SS_EM);
 			      cutnumber = 38.; fillHistos_EM_SRSS1(cutnumber, weight_ALL_SS_EM);				
 			      
-			      if(Mljj_EM < 120.){
+			      if(mTmax_EM >= 110.){
 				cutnumber = 39.; fillHistos_EM_SRSS1(cutnumber, weight_ALL_SS_EM);
-				if(mTWW_EM >= 110.){
+				if(Mljj_EM < 120.){
 				  cutnumber = 40.; fillHistos_EM_SRSS1(cutnumber, weight_ALL_SS_EM);
+				  if(HT > 200.){	
+				  cutnumber = 41.; fillHistos_EM_SRSS1(cutnumber, weight_ALL_SS_EM);
 				  if(calcSysUncert)cutflow_EM_sysUncert->Fill(cutnumber, isys, weight_ALL_SS_EM);
+				  }
 				}
 			      }
 			    }
@@ -1962,7 +1965,7 @@ void TSelector_SusyNtuple::SlaveTerminate()
 
     if(sample_identifier == 169471)outputfile="histos_ZN_WW_n0150_sysUncert_";
     if(sample_identifier == 126988)outputfile="histos_ZN_WWPlusJets_n0150_sysUncert_";
-    if(sample_identifier == 157814)outputfile="histos_ZN_WZ_n0150_sysUncert_";
+    if(sample_identifier == 129477)outputfile="histos_ZN_ZV_n0150_sysUncert_";
     
     if(sample_identifier == 116600)outputfile="histos_ZN_ZZ_n0150_sysUncert_";
     if(sample_identifier == 108346)outputfile="histos_ZN_ttbarWtop_n0150_sysUncert_";

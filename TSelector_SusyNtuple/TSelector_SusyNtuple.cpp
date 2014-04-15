@@ -957,7 +957,7 @@ Bool_t TSelector_SusyNtuple::Process(Long64_t entry)
 				cutnumber = 29.; fillHistos_EM_SRSS1(cutnumber, weight_ALL_SS_EM);
 				if(Mlj_EM < 90.){
 				  cutnumber = 30.; fillHistos_EM_SRSS1(cutnumber, weight_ALL_SS_EM);
-				  if(mTWW_EM > 120.){
+				  if(HT_EM > 200.){
 				    cutnumber = 31.; fillHistos_EM_SRSS1(cutnumber, weight_ALL_SS_EM);
 				    if(calcSysUncert) cutflow_EM_sysUncert->Fill(cutnumber, isys, weight_ALL_SS_EM);
 				  }				 
@@ -976,11 +976,14 @@ Bool_t TSelector_SusyNtuple::Process(Long64_t entry)
 			      cutnumber = 37.; fillHistos_EM_SRSS1(cutnumber, weight_ALL_SS_EM);
 			      cutnumber = 38.; fillHistos_EM_SRSS1(cutnumber, weight_ALL_SS_EM);				
 			      
-			      if(Mljj_EM < 120.){
+			      if(mTmax_EM >= 110.){
 				cutnumber = 39.; fillHistos_EM_SRSS1(cutnumber, weight_ALL_SS_EM);
-				if(mTWW_EM >= 110.){
+				if(Mljj_EM < 120.){
 				  cutnumber = 40.; fillHistos_EM_SRSS1(cutnumber, weight_ALL_SS_EM);
+				  if(HT_EM > 200.){	
+				  cutnumber = 41.; fillHistos_EM_SRSS1(cutnumber, weight_ALL_SS_EM);
 				  if(calcSysUncert)cutflow_EM_sysUncert->Fill(cutnumber, isys, weight_ALL_SS_EM);
+				  }
 				}
 			      }
 			    }
