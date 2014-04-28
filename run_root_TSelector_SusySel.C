@@ -51,7 +51,7 @@ void run_root_TSelector_SusySel(TString InputPath) {
     
       cout<<"Have you set up RootCore via  \"source RootCore/scripts/setup.sh\" ?"<<endl;  
 
-      gSystem->Setenv("ROOTCOREDIR", "/data/etp3/jwittkow/analysis_SUSYTools_03_04/RootCore");
+      gSystem->Setenv("ROOTCOREDIR", "/data/etp3/jwittkow/analysis_SUSYTools_03_04_SusyNt_01_16/RootCore");
       gSystem->SetIncludePath("-I$ROOTCOREDIR/include/");
 //       gROOT->ProcessLine("#include <vector>");
       gROOT->ProcessLine(".x $ROOTCOREDIR/scripts/load_packages.C+"); 
@@ -69,7 +69,7 @@ void run_root_TSelector_SusySel(TString InputPath) {
       gROOT->ProcessLine(".x $ROOTCOREDIR/scripts/load_packages.C+");
       ch->Add(InputPath);
 
-//       ch->Add("/data/etp3/jwittkow/analysis_SUSYTools_03_04/WZ_SusySel.root");
+//       ch->Add("/data/etp3/jwittkow/analysis_SUSYTools_03_04_SusyNt_01_16/WZ_SusySel.root");
 
 
 

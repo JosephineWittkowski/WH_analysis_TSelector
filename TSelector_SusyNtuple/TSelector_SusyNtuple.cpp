@@ -104,7 +104,7 @@ void TSelector_SusyNtuple::SlaveBegin(TTree* /*tree*/)
 {
   
   calcSysUncert = true;
-  makeNTuple = false;
+  makeNTuple = true;
   defineHistos();
   if(calcSysUncert) defineHistos_sysUncert();
 
@@ -125,7 +125,7 @@ void TSelector_SusyNtuple::SlaveBegin(TTree* /*tree*/)
   
   m_matrix = new SusyMatrixMethod::DiLeptonMatrixMethod();
   m_matrix->configure("/data/etp3/jwittkow/analysis_SUSYTools_03_04_SusyNt_01_16/SusyMatrixMethod/data/FinalFakeHist_Feb_02.root", SusyMatrixMethod::PT, SusyMatrixMethod::PT, SusyMatrixMethod::PT, SusyMatrixMethod::PT);
-  if(makeNTuple) initTupleMaker("/data/etp3/jwittkow/analysis_SUSYTools_03_04_SusyNt_01_16/SusySel_Egamma_6_NEW.root", "SusySel");
+  if(makeNTuple) initTupleMaker("/data/etp3/jwittkow/analysis_SUSYTools_03_04_SusyNt_01_16/SusySel_177501_test.root", "SusySel");
 //   string xsecFileName  = gSystem->ExpandPathName("/data/etp3/jwittkow/analysis_SUSYTools_03_04_SusyNt_01_16/SUSYTools/data/susy_crosssections_8TeV.txt");
   m_susyXsec = new SUSY::CrossSectionDB("/data/etp3/jwittkow/analysis_SUSYTools_03_04_SusyNt_01_16/SUSYTools/data/mc12_8TeV/Herwigpp_UEEE3_CTEQ6L1_simplifiedModel_wA.txt");
   
@@ -253,15 +253,15 @@ Bool_t TSelector_SusyNtuple::Process(Long64_t entry)
     float METrel = getMetRel(m_met, m_signalLeptons, m_signalJets2Lep, useForwardJets);
 
     float cutnumber;
-  //   if(m_signalLeptons.size()>1){
-  //     double weight= SusyNtTools::getEventWeight(nt.evt(), LUMI_A_L, true, &m_sumwMap);
-  //     unsigned int run(nt.evt()->run), event(nt.evt()->event);
-  //     LeptonVector anyLep(getAnyElOrMu(nt));
-  //     LeptonVector lowPtLep(subtract_vector(anyLep, m_baseLeptons)); // caveat: spurious sigLep dupl.
-  //     const Lepton *l0 = m_signalLeptons[0];
-  //     const Lepton *l1 = m_signalLeptons[1];
-  //     if(makeNTuple) fillTupleMaker(weight, run, event, *l0, *l1, *m_met, lowPtLep, m_signalJets2Lep);
-  //   }
+//     if(m_signalLeptons.size()>1){
+//       double weight= SusyNtTools::getEventWeight(nt.evt(), LUMI_A_L, true, &m_sumwMap);
+//       unsigned int run(nt.evt()->run), event(nt.evt()->event);
+//       LeptonVector anyLep(getAnyElOrMu(nt));
+//       LeptonVector lowPtLep(subtract_vector(anyLep, m_baseLeptons)); // caveat: spurious sigLep dupl.
+//       const Lepton *l0 = m_signalLeptons[0];
+//       const Lepton *l1 = m_signalLeptons[1];
+//       if(makeNTuple) fillTupleMaker(weight, run, event, *l0, *l1, *m_met, lowPtLep, m_signalJets2Lep);
+//     }
     TauVector preTaus = getPreTaus(&nt, SysSetting);
     h_NpreTaus->Fill(preTaus.size(), 14, weight_ALL_EE);
   //////////////////////////// EE //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -432,12 +432,14 @@ Bool_t TSelector_SusyNtuple::Process(Long64_t entry)
 			      if(nt.evt()->isMC){
 				const Lepton *l0 = m_signalLeptons[0];
 				const Lepton *l1 = m_signalLeptons[1];
-				fillTupleMaker(weight_ALL_SS_EE, nt.evt()->run, nt.evt()->event, nt.evt()->isMC, *l0, *l1, *m_met, lowPtLep, m_signalJets2Lep);
+// 				cout << "nt.evt()->event= " << nt.evt()->event << endl;
+				const JetVector signalJets = m_signalJets2Lep;
+				fillTupleMaker(weight_ALL_SS_EE, nt.evt()->run, nt.evt()->event, nt.evt()->isMC, *l0, *l1, *m_met, lowPtLep, m_signalJets2Lep, METrel_SS);
 			      }
 			      if(calcFakeContribution){
 				const Lepton *l0 = m_baseLeptons[0];
 				const Lepton *l1 = m_baseLeptons[1];
-				fillTupleMaker(weight_ALL_SS_EE, nt.evt()->run, nt.evt()->event, nt.evt()->isMC, *l0, *l1, *m_met, lowPtLep, m_signalJets2Lep);
+				fillTupleMaker(weight_ALL_SS_EE, nt.evt()->run, nt.evt()->event, nt.evt()->isMC, *l0, *l1, *m_met, lowPtLep, m_signalJets2Lep, METrel_SS);
 			      }
 			    }
 			  //============================================
@@ -674,12 +676,12 @@ Bool_t TSelector_SusyNtuple::Process(Long64_t entry)
 			      if(nt.evt()->isMC){
 				const Lepton *l0 = m_signalLeptons[0];
 				const Lepton *l1 = m_signalLeptons[1];
-				if(makeNTuple) fillTupleMaker(weight_ALL_MM, nt.evt()->run, nt.evt()->event, nt.evt()->isMC, *l0, *l1, *m_met, lowPtLep, m_signalJets2Lep);
+				if(makeNTuple) fillTupleMaker(weight_ALL_MM, nt.evt()->run, nt.evt()->event, nt.evt()->isMC, *l0, *l1, *m_met, lowPtLep, m_signalJets2Lep, METrel_MM);
 			      }
 			      if(calcFakeContribution){
 				const Lepton *l0 = m_baseLeptons[0];
 				const Lepton *l1 = m_baseLeptons[1];
-				if(makeNTuple) fillTupleMaker(weight_ALL_MM, nt.evt()->run, nt.evt()->event, nt.evt()->isMC, *l0, *l1, *m_met, lowPtLep, m_signalJets2Lep);
+				if(makeNTuple) fillTupleMaker(weight_ALL_MM, nt.evt()->run, nt.evt()->event, nt.evt()->isMC, *l0, *l1, *m_met, lowPtLep, m_signalJets2Lep, METrel_MM);
 			      }
 			    }
 			    //===============================================================================================================================		  
@@ -690,23 +692,23 @@ Bool_t TSelector_SusyNtuple::Process(Long64_t entry)
 			      if(mu0_TLV.Pt()>=20. && mu1_TLV.Pt()>=20. && ((mu0_TLV.Pt()>mu1_TLV.Pt() && mu0_TLV.Pt() >= 30.) || (mu0_TLV.Pt()<mu1_TLV.Pt() && mu1_TLV.Pt() >= 30.))){
 				cutnumber = 26.;  fillHistos_MM_SRSS1(cutnumber, weight_ALL_MM);
 				cutnumber = 27.;  fillHistos_MM_SRSS1(cutnumber, weight_ALL_MM); //ZVeto
-				if(nt.evt()->event == 96686) cout << cutnumber << endl;
+// 				if(nt.evt()->event == 96686) cout << cutnumber << endl;
 				if(DeltaEtall_MM < 1.5){
 				  cutnumber = 28.;  fillHistos_MM_SRSS1(cutnumber, weight_ALL_MM);
-				  if(nt.evt()->event == 96686) cout << cutnumber << " mTmax_MM= " << mTmax_MM << endl;
+// 				  if(nt.evt()->event == 96686) cout << cutnumber << " mTmax_MM= " << mTmax_MM << endl;
 				   
 				  if(mTmax_MM > 100.){
 				    cutnumber = 29.;  fillHistos_MM_SRSS1(cutnumber, weight_ALL_MM);
-				    if(nt.evt()->event == 96686) cout << cutnumber << endl;
+// 				    if(nt.evt()->event == 96686) cout << cutnumber << endl;
 				    if(Mlj_MM < 90.){
 				      cutnumber = 30.;  fillHistos_MM_SRSS1(cutnumber, weight_ALL_MM);
-				      if(nt.evt()->event == 96686) cout << cutnumber << endl;
+// 				      if(nt.evt()->event == 96686) cout << cutnumber << endl;
 				  
 				      if(HT_MM > 200.){
 					cutnumber = 31.;  fillHistos_MM_SRSS1(cutnumber, weight_ALL_MM);
-					if(nt.evt()->event == 96686) cout << cutnumber << endl;
+// 					if(nt.evt()->event == 96686) cout << cutnumber << endl;
 					if(calcSysUncert) cutflow_MM_sysUncert->Fill(cutnumber, isys, weight_ALL_MM);
-					if(nt.evt()->event == 96686) cout << nt.evt()->event << " weight_ALL_MM= " << weight_ALL_MM << " trigW_MM= " <<  trigW_MM << " mu0_TLV.Pt()= " << mu0_TLV.Pt() << " mu1_TLV.Pt()= " << mu1_TLV.Pt() << endl;
+// 					if(nt.evt()->event == 96686) cout << nt.evt()->event << " weight_ALL_MM= " << weight_ALL_MM << " trigW_MM= " <<  trigW_MM << " mu0_TLV.Pt()= " << mu0_TLV.Pt() << " mu1_TLV.Pt()= " << mu1_TLV.Pt() << endl;
 					
 				      }
 				    }
@@ -936,12 +938,12 @@ Bool_t TSelector_SusyNtuple::Process(Long64_t entry)
 			    if(nt.evt()->isMC){
 			      const Lepton *l0 = m_signalLeptons[0];
 			      const Lepton *l1 = m_signalLeptons[1];
-			      fillTupleMaker(weight_ALL_SS_EM, nt.evt()->run, nt.evt()->event, nt.evt()->isMC, *l0, *l1, *m_met, lowPtLep, m_signalJets2Lep);
+			      fillTupleMaker(weight_ALL_SS_EM, nt.evt()->run, nt.evt()->event, nt.evt()->isMC, *l0, *l1, *m_met, lowPtLep, m_signalJets2Lep,METrel_SS);
 			    }
 			    if(calcFakeContribution){
 			      const Lepton *l0 = m_baseLeptons[0];
 			      const Lepton *l1 = m_baseLeptons[1];
-			      fillTupleMaker(weight_ALL_SS_EM, nt.evt()->run, nt.evt()->event, nt.evt()->isMC, *l0, *l1, *m_met, lowPtLep, m_signalJets2Lep);
+			      fillTupleMaker(weight_ALL_SS_EM, nt.evt()->run, nt.evt()->event, nt.evt()->isMC, *l0, *l1, *m_met, lowPtLep, m_signalJets2Lep,METrel_SS);
 			    }
 			  }
 			//------------------------------------------------------------------------------------
@@ -1755,24 +1757,51 @@ FourMom jet2FourMom (const Jet *j) { return (j ? FourMom().setJet(*j) : FourMom(
 //----------------------------------------------------------
 bool TSelector_SusyNtuple::fillTupleMaker(const double weight, const unsigned int run, const unsigned int event, const bool isMc,
                       const Susy::Lepton &l0, const Susy::Lepton &l1, const Susy::Met &met,
-                      const LeptonVector &otherLeptons, const JetVector &jets)
+                      const LeptonVector &otherLeptons, const JetVector &jets, float METrel)
 {
     bool someBytesWritten(false);
     if(tree_) {
-//       cout << "fillTupleMaker" << endl;
-        eventPars_.setWeight(weight).setRun(run).setEvent(event).setIsmc(isMc);
+	cout << "event= " << event << endl;
+        eventPars_.setWeight(weight).setRun(run).setEvent(event).setIsmc(isMc).setMetrel(METrel);
         l0.isMu() ? l0_.setMu(l0) : l0_.setEl(l0);
         l1.isMu() ? l1_.setMu(l1) : l1_.setEl(l1);
         met_.setMet(met);
         jets_.clear();
         lowptLepts_.clear();
-        const LeptonVector &olps = otherLeptons;
-        std::transform(jets.begin(), jets.end(), std::back_inserter(jets_),       jet2FourMom);
-        std::transform(olps.begin(), olps.end(), std::back_inserter(lowptLepts_), lepton2FourMom);
+//         const LeptonVector &olps = otherLeptons;
+	cout << "before transform jet2FourMom" << endl;
+	if(jets.size()>0) cout << "jet 0 " << jets.at(0)->Pt() << endl;
+	if(jets.size()>1) cout << "jet 1 " << jets.at(1)->Pt() << endl;
+	if(jets.size()>2) cout << "jet 2 " << jets.at(2)->Pt() << endl;
+// 	const JetVector jets_buffer;
+// 	cout << "jets.begin()= " << *jets.begin() << endl;
+//         std::transform(jets.begin(), jets.end(), std::back_inserter(jets_),       jet2FourMom);
+// 	cout << "jets.size()= " << jets.size() << endl;
+// 	std::vector<int> foo;
+// 	std::vector<int> bar;
+// 	const JetVector &jets_in;
+// 	jets_in = jets;
+// 	JetVector jets_out;
+// 	std::transform (jets.begin(), jets.end(), jets_out.begin(), op_increase);
+
+	for(int i = 0; i < jets.size(); i++){
+	  jets_.at(i) =  FourMom().setJet(*jets.at(i));
+	}
+// 	cout << "jets_buffer.size()= " << jets_buffer.size() << endl;
+// 	jets_ = jets_buffer;
+// 	for(int i = 0; i < otherLeptons.size(); i++){
+// 	  lowptLepts_.push_back(lepton2FourMom(otherLeptons.at(i)));
+// 	}
+// 	cout << "before transform lepton2FourMom" << endl;
+//         std::transform(olps.begin(), olps.end(), std::back_inserter(lowptLepts_), lepton2FourMom);
+// 	cout << "before someBytesWritten " << endl;
         someBytesWritten = (tree_->Fill()>0);
+	cout << "tree_->Fill" << endl;
+	jets_.clear();
     }
     return someBytesWritten;
 }
+
 /*--------------------------------------------------------------------------------*/
 LeptonVector TSelector_SusyNtuple::getAnyElOrMu(SusyNtObject &susyNt, const Lepton *l0, const Lepton *l1)
 {
@@ -1963,73 +1992,73 @@ void TSelector_SusyNtuple::SlaveTerminate()
   
     TString outputfile;
 
-    if(sample_identifier == 169471)outputfile="histos_ZN_WW_n0150_sysUncert_";
-    if(sample_identifier == 126988)outputfile="histos_ZN_WWPlusJets_n0150_sysUncert_";
-    if(sample_identifier == 129477)outputfile="histos_ZN_ZV_n0150_sysUncert_";
+    if(sample_identifier == 169471)outputfile="histos_ZN_WW_n0150_test";
+    if(sample_identifier == 126988)outputfile="histos_ZN_WWPlusJets_n0150_test";
+    if(sample_identifier == 129477)outputfile="histos_ZN_ZV_n0150_test";
     
-    if(sample_identifier == 116600)outputfile="histos_ZN_ZZ_n0150_sysUncert_";
-    if(sample_identifier == 108346)outputfile="histos_ZN_ttbarWtop_n0150_sysUncert_";
+    if(sample_identifier == 116600)outputfile="histos_ZN_ZZ_n0150_test";
+    if(sample_identifier == 108346)outputfile="histos_ZN_ttbarWtop_n0150_test";
     
-//     if(sample_identifier == 110805) outputfile="histos_ZN_ZPlusJetsOLD_n0150_split1_sysUncert_";
-//     if(sample_identifier == 117671) outputfile="histos_ZN_ZPlusJetsOLD_n0150_split2_sysUncert_";    
-//     if(sample_identifier == 173041)outputfile="histos_ZN_ZPlusJetsOLD_n0150_split3_sysUncert_";           
-//     if(sample_identifier == 173045)outputfile="histos_ZN_ZPlusJetsOLD_n0150_split4_sysUncert_"; 
+//     if(sample_identifier == 110805) outputfile="histos_ZN_ZPlusJetsOLD_n0150_split1_test";
+//     if(sample_identifier == 117671) outputfile="histos_ZN_ZPlusJetsOLD_n0150_split2_test";    
+//     if(sample_identifier == 173041)outputfile="histos_ZN_ZPlusJetsOLD_n0150_split3_test";           
+//     if(sample_identifier == 173045)outputfile="histos_ZN_ZPlusJetsOLD_n0150_split4_test"; 
     
-    if(sample_identifier == 147105)outputfile="histos_ZN_ZPlusJetsNEW_n0150_split1_sysUncert_";    
-    if(sample_identifier == 147123)outputfile="histos_ZN_ZPlusJetsNEW_n0150_split2_sysUncert_";    
-    if(sample_identifier == 147771)outputfile="histos_ZN_ZPlusJetsNEW_n0150_split3_sysUncert_";    
-    if(sample_identifier == 173045)outputfile="histos_ZN_ZPlusJetsNEW_n0150_split4_sysUncert_";    
+    if(sample_identifier == 147105)outputfile="histos_ZN_ZPlusJetsNEW_n0150_split1_test";    
+    if(sample_identifier == 147123)outputfile="histos_ZN_ZPlusJetsNEW_n0150_split2_test";    
+    if(sample_identifier == 147771)outputfile="histos_ZN_ZPlusJetsNEW_n0150_split3_test";    
+    if(sample_identifier == 173045)outputfile="histos_ZN_ZPlusJetsNEW_n0150_split4_test";    
     
     
     
-    if(sample_identifier == 160155)outputfile="histos_ZN_Higgs_n0150_sysUncert_";
+    if(sample_identifier == 160155)outputfile="histos_ZN_Higgs_n0150_test";
     
-    if(sample_identifier == 157816)outputfile="histos_ZN_VVtotautauqq_n0150_sysUncert_";
+    if(sample_identifier == 157816)outputfile="histos_ZN_VVtotautauqq_n0150_test";
     
-    if(sample_identifier == 126893)outputfile="histos_cutflow_126893_TSelector_n0150_sysUncert_";
-    if(sample_identifier == 176576)outputfile="histos_cutflow_176576_TSelector_n0150_sysUncert_";
-    if(sample_identifier == 177501)outputfile="histos_ZN_177501_n0150_sysUncert_";
-    if(sample_identifier == 177502)outputfile="histos_ZN_177502_n0150_sysUncert_";
-    if(sample_identifier == 177503)outputfile="histos_ZN_177503_n0150_sysUncert_";
-    if(sample_identifier == 177504)outputfile="histos_ZN_177504_n0150_sysUncert_";
-    if(sample_identifier == 177505)outputfile="histos_ZN_177505_n0150_sysUncert_";
-    if(sample_identifier == 177506)outputfile="histos_ZN_177506_n0150_sysUncert_";
-    if(sample_identifier == 177507)outputfile="histos_ZN_177507_n0150_sysUncert_";
-    if(sample_identifier == 177508)outputfile="histos_ZN_177508_n0150_sysUncert_";
-    if(sample_identifier == 177509)outputfile="histos_ZN_177509_n0150_sysUncert_";
-    if(sample_identifier == 177510)outputfile="histos_ZN_177510_n0150_sysUncert_";
-    if(sample_identifier == 177511)outputfile="histos_ZN_177511_n0150_sysUncert_";
-    if(sample_identifier == 177512)outputfile="histos_ZN_177512_n0150_sysUncert_";
-    if(sample_identifier == 177513)outputfile="histos_ZN_177513_n0150_sysUncert_";
-    if(sample_identifier == 177514)outputfile="histos_ZN_177514_n0150_sysUncert_";
-    if(sample_identifier == 177515)outputfile="histos_ZN_177515_n0150_sysUncert_";
-    if(sample_identifier == 177516)outputfile="histos_ZN_177516_n0150_sysUncert_";
-    if(sample_identifier == 177517)outputfile="histos_ZN_177517_n0150_sysUncert_";
-    if(sample_identifier == 177518)outputfile="histos_ZN_177518_n0150_sysUncert_";
-    if(sample_identifier == 177519)outputfile="histos_ZN_177519_n0150_sysUncert_";
-    if(sample_identifier == 177520)outputfile="histos_ZN_177520_n0150_sysUncert_";
-    if(sample_identifier == 177521)outputfile="histos_ZN_177521_n0150_sysUncert_";
-    if(sample_identifier == 177522)outputfile="histos_ZN_177522_n0150_sysUncert_";
-    if(sample_identifier == 177523)outputfile="histos_ZN_177523_n0150_sysUncert_";
-    if(sample_identifier == 177524)outputfile="histos_ZN_177524_n0150_sysUncert_";
-    if(sample_identifier == 177525)outputfile="histos_ZN_177525_n0150_sysUncert_";
-    if(sample_identifier == 177526)outputfile="histos_ZN_177526_n0150_sysUncert_";
-    if(sample_identifier == 177527)outputfile="histos_ZN_177527_n0150_sysUncert_";
+    if(sample_identifier == 126893)outputfile="histos_cutflow_126893_TSelector_n0150_test";
+    if(sample_identifier == 176576)outputfile="histos_cutflow_176576_TSelector_n0150_test";
+    if(sample_identifier == 177501)outputfile="histos_ZN_177501_n0150_test";
+    if(sample_identifier == 177502)outputfile="histos_ZN_177502_n0150_test";
+    if(sample_identifier == 177503)outputfile="histos_ZN_177503_n0150_test";
+    if(sample_identifier == 177504)outputfile="histos_ZN_177504_n0150_test";
+    if(sample_identifier == 177505)outputfile="histos_ZN_177505_n0150_test";
+    if(sample_identifier == 177506)outputfile="histos_ZN_177506_n0150_test";
+    if(sample_identifier == 177507)outputfile="histos_ZN_177507_n0150_test";
+    if(sample_identifier == 177508)outputfile="histos_ZN_177508_n0150_test";
+    if(sample_identifier == 177509)outputfile="histos_ZN_177509_n0150_test";
+    if(sample_identifier == 177510)outputfile="histos_ZN_177510_n0150_test";
+    if(sample_identifier == 177511)outputfile="histos_ZN_177511_n0150_test";
+    if(sample_identifier == 177512)outputfile="histos_ZN_177512_n0150_test";
+    if(sample_identifier == 177513)outputfile="histos_ZN_177513_n0150_test";
+    if(sample_identifier == 177514)outputfile="histos_ZN_177514_n0150_test";
+    if(sample_identifier == 177515)outputfile="histos_ZN_177515_n0150_test";
+    if(sample_identifier == 177516)outputfile="histos_ZN_177516_n0150_test";
+    if(sample_identifier == 177517)outputfile="histos_ZN_177517_n0150_test";
+    if(sample_identifier == 177518)outputfile="histos_ZN_177518_n0150_test";
+    if(sample_identifier == 177519)outputfile="histos_ZN_177519_n0150_test";
+    if(sample_identifier == 177520)outputfile="histos_ZN_177520_n0150_test";
+    if(sample_identifier == 177521)outputfile="histos_ZN_177521_n0150_test";
+    if(sample_identifier == 177522)outputfile="histos_ZN_177522_n0150_test";
+    if(sample_identifier == 177523)outputfile="histos_ZN_177523_n0150_test";
+    if(sample_identifier == 177524)outputfile="histos_ZN_177524_n0150_test";
+    if(sample_identifier == 177525)outputfile="histos_ZN_177525_n0150_test";
+    if(sample_identifier == 177526)outputfile="histos_ZN_177526_n0150_test";
+    if(sample_identifier == 177527)outputfile="histos_ZN_177527_n0150_test";
     
-    if(sample_identifier == 10001) outputfile="histos_fake_Egamma_n0150_1_sysUncert_";
-    if(sample_identifier == 10002) outputfile="histos_fake_Egamma_n0150_2_sysUncert_";
-    if(sample_identifier == 10003) outputfile="histos_fake_Egamma_n0150_3_sysUncert_";
-    if(sample_identifier == 10004) outputfile="histos_fake_Egamma_n0150_4_sysUncert_";
-    if(sample_identifier == 10005) outputfile="histos_fake_Egamma_n0150_5_sysUncert_";
-    if(sample_identifier == 10006) outputfile="histos_fake_Egamma_n0150_6_sysUncert_";
+    if(sample_identifier == 10001) outputfile="histos_fake_Egamma_n0150_1_test";
+    if(sample_identifier == 10002) outputfile="histos_fake_Egamma_n0150_2_test";
+    if(sample_identifier == 10003) outputfile="histos_fake_Egamma_n0150_3_test";
+    if(sample_identifier == 10004) outputfile="histos_fake_Egamma_n0150_4_test";
+    if(sample_identifier == 10005) outputfile="histos_fake_Egamma_n0150_5_test";
+    if(sample_identifier == 10006) outputfile="histos_fake_Egamma_n0150_6_test";
     
-    if(sample_identifier == 20001) outputfile="histos_fake_Muons_n0150_1_sysUncert_";
-    if(sample_identifier == 20002) outputfile="histos_fake_Muons_n0150_2_sysUncert_";
-    if(sample_identifier == 20003) outputfile="histos_fake_Muons_n0150_3_sysUncert_";
-    if(sample_identifier == 20004) outputfile="histos_fake_Muons_n0150_4_sysUncert_";
-    if(sample_identifier == 20005) outputfile="histos_fake_Muons_n0150_5_sysUncert_";
-    if(sample_identifier == 20006) outputfile="histos_fake_Muons_n0150_6_sysUncert_";
-//     outputfile="histos_cutflow_fake_Egamma_periodA_sysUncert_";
+    if(sample_identifier == 20001) outputfile="histos_fake_Muons_n0150_1_test";
+    if(sample_identifier == 20002) outputfile="histos_fake_Muons_n0150_2_test";
+    if(sample_identifier == 20003) outputfile="histos_fake_Muons_n0150_3_test";
+    if(sample_identifier == 20004) outputfile="histos_fake_Muons_n0150_4_test";
+    if(sample_identifier == 20005) outputfile="histos_fake_Muons_n0150_5_test";
+    if(sample_identifier == 20006) outputfile="histos_fake_Muons_n0150_6_test";
+//     outputfile="histos_cutflow_fake_Egamma_periodA_test";
     
 // if(sample_identifier>=176574 && sample_identifier <= 176640){
 // char buffer[10];

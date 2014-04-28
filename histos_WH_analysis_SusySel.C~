@@ -685,7 +685,7 @@ void SusySel::fillHistos_1j_EM(int cutnumber, float weight){
   h_mTlmin_1j_EM->Fill(mTmin_EM, cutnumber, weight);
   h_DeltaEtall_1j_EM->Fill(DeltaEtall_EM, cutnumber, weight);
   
-  h_mT2_1j_EM_1j_EM->Fill(mT2_EM, cutnumber, weight);
+  h_mT2_1j_EM->Fill(mT2_EM, cutnumber, weight);
   h_etal0_1j_EM->Fill(etal0_EM, cutnumber, weight);
   h_etal1_1j_EM->Fill(etal1_EM, cutnumber, weight);  
   

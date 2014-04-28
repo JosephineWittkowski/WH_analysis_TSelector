@@ -444,7 +444,7 @@ void SusySel::calc_MM_variables(TLorentzVector mu0_TLV, TLorentzVector mu1_TLV, 
   mT2J_MM = calcMT2J(met_TLV, mu0_TLV, mu1_TLV, signalJets);
 //   cout << "mT2J_MM= " << mT2J_MM << endl;
   Mljj_MM = -1.;
-  if((*signalJets).size()>1){
+  if((*signalJets).size()/2>1){
     FourMom signalJet0 =     (*signalJets).at(0);
     TLorentzVector jet0_TLV;
     jet0_TLV.SetPxPyPzE(signalJet0.px, signalJet0.py, signalJet0.pz, signalJet0.E);
@@ -460,7 +460,7 @@ void SusySel::calc_MM_variables(TLorentzVector mu0_TLV, TLorentzVector mu1_TLV, 
   
 
   Mlj_MM = -1.;
-  if((*signalJets).size()>0){
+  if((*signalJets).size()/2>0){
     FourMom signalJet0 =     (*signalJets).at(0);
     TLorentzVector jet0_TLV;
     jet0_TLV.SetPxPyPzE(signalJet0.px, signalJet0.py, signalJet0.pz, signalJet0.E);
@@ -491,7 +491,7 @@ void SusySel::calc_EE_variables(TLorentzVector el0_TLV, TLorentzVector el1_TLV, 
   mTWW_EE = calcMt((el0_TLV + el1_TLV), met_TLV);
   mT2J_EE = calcMT2J(met_TLV, el0_TLV, el1_TLV, signalJets);
   Mljj_EE = -1.;
-  if((*signalJets).size()>1){
+  if((*signalJets).size()/2>1){
     FourMom signalJet0 =     (*signalJets).at(0);
     TLorentzVector jet0_TLV;
     jet0_TLV.SetPxPyPzE(signalJet0.px, signalJet0.py, signalJet0.pz, signalJet0.E);
@@ -506,7 +506,7 @@ void SusySel::calc_EE_variables(TLorentzVector el0_TLV, TLorentzVector el1_TLV, 
   }
   
   Mlj_EE = -1.;
-  if((*signalJets).size()>0){
+  if((*signalJets).size()/2>0){
     FourMom signalJet0 =     (*signalJets).at(0);
     TLorentzVector jet0_TLV;
     jet0_TLV.SetPxPyPzE(signalJet0.px, signalJet0.py, signalJet0.pz, signalJet0.E);
@@ -537,7 +537,7 @@ void SusySel::calc_EM_variables(TLorentzVector mu_TLV, TLorentzVector el_TLV, TL
   mTWW_EM = calcMt((el_TLV + mu_TLV), met_TLV);
   mT2J_EM = calcMT2J(met_TLV, el_TLV, mu_TLV, signalJets);
   Mljj_EM = -1.;
-  if((*signalJets).size()>1){
+  if((*signalJets).size()/2>1){
     FourMom signalJet0 =     (*signalJets).at(0);
     TLorentzVector jet0_TLV;
     jet0_TLV.SetPxPyPzE(signalJet0.px, signalJet0.py, signalJet0.pz, signalJet0.E);
@@ -552,7 +552,7 @@ void SusySel::calc_EM_variables(TLorentzVector mu_TLV, TLorentzVector el_TLV, TL
   }
   
   Mlj_EM = -1.;
-  if((*signalJets).size()>0){
+  if((*signalJets).size()/2>0){
     FourMom signalJet0 =     (*signalJets).at(0);
     TLorentzVector jet0_TLV;
     jet0_TLV.SetPxPyPzE(signalJet0.px, signalJet0.py, signalJet0.pz, signalJet0.E);

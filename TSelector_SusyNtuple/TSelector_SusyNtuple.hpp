@@ -74,12 +74,14 @@ struct EventParameters {
     unsigned int eventNumber;
     unsigned int runNumber;
     bool ismc;
-    EventParameters() : weight(0), eventNumber(0), runNumber(0), ismc(0) {}
+    float metrel;
+    EventParameters() : weight(0), eventNumber(0), runNumber(0), ismc(0), metrel(0) {}
 #ifndef __CINT__
     EventParameters& setWeight(const double &w) { weight=w; return *this; }
     EventParameters& setEvent(const unsigned int &e) { eventNumber=e; return *this; }
     EventParameters& setRun(const unsigned int &r) { runNumber=r; return *this; }
     EventParameters& setIsmc(const bool &im) { ismc=im; return *this; }
+    EventParameters& setMetrel(const float &metr) { metrel=metr; return *this; }
 #endif
 };
 
@@ -984,9 +986,11 @@ class TSelector_SusyNtuple : public SusyNtAna
     bool initFile(const std::string &outFilename);
     bool initTree(const std::string &treename);
     bool initTreeBranches();
-    bool fillTupleMaker(const double weight, const unsigned int run, const unsigned int event, const bool isMc, const Susy::Lepton &l0, const Susy::Lepton &l1, const Susy::Met &met, const LeptonVector &otherLeptons, const JetVector &jets);
+    bool fillTupleMaker(const double weight, const unsigned int run, const unsigned int event, const bool isMc, const Susy::Lepton &l0, const Susy::Lepton &l1, const Susy::Met &met, const LeptonVector &otherLeptons, const JetVector &jets, float METrel);
     LeptonVector getAnyElOrMu(SusyNtObject &susyNt, const Lepton *l0, const Lepton *l1);
     bool closeTupleMaker();
+//     FourMom jet2FourMom (const Jet *j);
+//     FourMom lepton2FourMom (const Lepton *l);
 //     SusyNtSys returnSysUncertType(int isys);
 //     int returnSysUncertNumber(SusyNtSys UncertType);
 //     int returnSysUncertBTagNumber(BTagSys UncertType);
